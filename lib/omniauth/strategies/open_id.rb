@@ -27,6 +27,7 @@ module OmniAuth
       option :store, ::OpenID::Store::Memory.new
       option :identifier, nil
       option :identifier_param, 'openid_url'
+      option :ui, { :mode => nil, :icon => nil, :lang => nil }
 
       def dummy_app
         lambda{|env| [401, {"WWW-Authenticate" => Rack::OpenID.build_header(
@@ -34,6 +35,9 @@ module OmniAuth
           :return_to => callback_url,
           :required => options.required,
           :optional => options.optional,
+          :"ui[mode]" => options['ui']['mode'],
+          :"ui[icon]" => options['ui']['icon'],
+          :"ui[lang]" => options['ui']['lang'],
           :method => 'post'
         )}, []]}
       end
